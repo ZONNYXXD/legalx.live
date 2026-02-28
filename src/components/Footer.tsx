@@ -324,7 +324,7 @@ export const Footer = () => {
                                 {[
                                     { name: "LinkedIn", icon: Linkedin, link: "https://www.linkedin.com/in/sony-silvera-zyncripta" },
                                     { name: "GitHub", icon: Github, link: "https://github.com/ZONNYXXD" },
-                                    { name: "Email", icon: Mail, link: "mailto:zonnyxxd@gmail.com" }
+                                    { name: "Email", icon: Mail, link: "zonnyxxd@gmail.com" }
                                 ].map((social, i) => (
                                     <motion.a
                                         key={i}
