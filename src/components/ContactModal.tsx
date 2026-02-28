@@ -22,18 +22,45 @@ export const ContactModal = () => {
 
         try {
             const SERVICE_ID = "service_mk6yqh9"
-            const TEMPLATE_ID = "template_496dvb2"
+            const ADMIN_TEMPLATE_ID = "template_69l8scj"
+            const USER_TEMPLATE_ID = "template_l7qmkjm"
             const PUBLIC_KEY = "6GQU5XRb5q6WEQWsg"
 
-            await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, PUBLIC_KEY)
+            // Initialize EmailJS explicitly
+            emailjs.init(PUBLIC_KEY)
+
+            const formData = new FormData(formRef.current)
+
+            // Unified parameters for both templates
+            const templateParams = {
+                user_name: formData.get("user_name"),
+                user_email: formData.get("user_email"),
+                message: formData.get("message"),
+                // Standard variable names to ensure both templates resolve correctly
+                to_email: "zonnyxxd@gmail.com", // For Admin Template
+                recipient_email: formData.get("user_email"), // For Auto-reply Template if it uses this
+                reply_to: formData.get("user_email"),
+                to_name: "SONY",
+            }
+
+            console.log("Transmitting Parallel Payloads:", templateParams)
+
+            // Send both emails simultaneously for better performance
+            await Promise.all([
+                emailjs.send(SERVICE_ID, ADMIN_TEMPLATE_ID, templateParams, PUBLIC_KEY),
+                emailjs.send(SERVICE_ID, USER_TEMPLATE_ID, templateParams, PUBLIC_KEY)
+            ])
+
             setStatus("success")
 
             setTimeout(() => {
                 setIsOpen() // This is closeContactModal
                 setStatus("idle")
             }, 3000)
-        } catch (error) {
-            console.error("EmailJS Error:", error)
+        } catch (error: any) {
+            console.error("EmailJS Full Error Object:", error)
+            console.error("EmailJS Error Status:", error?.status)
+            console.error("EmailJS Error Text:", error?.text)
             setStatus("error")
         } finally {
             setIsSubmitting(false)
