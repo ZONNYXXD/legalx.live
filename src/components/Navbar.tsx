@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
-import { Shield, Menu, X } from "lucide-react"
+import { ChevronDown, Menu, X, Shield, Activity, Lock, ExternalLink, Mail, User, BookOpen, Terminal, Globe, Cpu } from "lucide-react"
+import { useModal } from "./ModalContext"
 import { Magnetic } from "./Magnetic"
 
 const navLinks = [
@@ -16,19 +17,26 @@ const navLinks = [
 ]
 
 export const Navbar = () => {
-    const [scrolled, setScrolled] = useState(false)
+    const [isScrolled, setIsScrolled] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
+    const { openContactModal } = useModal()
     const [hoveredLink, setHoveredLink] = useState<string | null>(null)
 
     useEffect(() => {
         const handleScroll = () => {
-            setScrolled(window.scrollY > 50)
+            setIsScrolled(window.scrollY > 50)
         }
         window.addEventListener("scroll", handleScroll)
         return () => window.removeEventListener("scroll", handleScroll)
     }, [])
 
     const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        if (href === "#contact") {
+            e.preventDefault()
+            openContactModal()
+            setIsOpen(false)
+            return
+        }
         e.preventDefault()
         setIsOpen(false)
 
@@ -55,12 +63,12 @@ export const Navbar = () => {
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-in-out flex justify-center ${scrolled ? "pt-6 px-4" : "pt-8 px-6"
+                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-in-out flex justify-center ${isScrolled ? "pt-6 px-4" : "pt-8 px-6"
                     }`}
             >
                 <div
                     className={`flex items-center justify-between w-full transition-all duration-700 ease-in-out relative
-                        ${scrolled
+                        ${isScrolled
                             ? "max-w-5xl bg-[#030303]/80 backdrop-blur-2xl border border-white/10 rounded-2xl px-6 py-3 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.8)] shadow-neon-purple/5"
                             : "max-w-7xl bg-transparent px-2 py-2"
                         }
@@ -113,7 +121,10 @@ export const Navbar = () => {
                     {/* CTA Button */}
                     <div className="flex justify-end w-48 relative z-10">
                         <Magnetic>
-                            <button className="hidden md:flex relative group items-center justify-center px-8 py-3 overflow-hidden transition-all duration-300">
+                            <button
+                                onClick={openContactModal}
+                                className="hidden md:flex relative group items-center justify-center px-8 py-3 overflow-hidden transition-all duration-300"
+                            >
                                 {/* Tactical Notched Background */}
                                 <div
                                     className="absolute inset-0 bg-white/[0.03] group-hover:bg-neon-purple/10 transition-colors backdrop-blur-md border border-white/10"
@@ -205,6 +216,18 @@ export const Navbar = () => {
                             >
                                 Secure Infrastructure
                             </motion.button>
+
+                            <motion.a
+                                href="/resume.pdf"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: 0.6 }}
+                                className="mt-4 px-12 py-4 border border-white/10 text-white font-header font-black text-[10px] uppercase tracking-[0.3em] w-full max-w-sm text-center"
+                            >
+                                Download_CV.pdf
+                            </motion.a>
                         </div>
                     </motion.div>
                 )}

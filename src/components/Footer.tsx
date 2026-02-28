@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, useRef } from "react"
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion"
-import { ShieldAlert, ArrowRight, Linkedin, Github, Mail, Zap, Activity, Cpu, Shield, ExternalLink, Lock } from "lucide-react"
+import { ShieldAlert, ArrowRight, Linkedin, Github, Mail, Zap, Activity, Cpu, Shield, ExternalLink, Lock, ChevronRight, Globe, Terminal } from "lucide-react"
+import { useModal } from "./ModalContext"
 
 export const FinalCTA = () => {
     const containerRef = useRef<HTMLDivElement>(null)
@@ -261,6 +262,8 @@ export const FinalCTA = () => {
 }
 
 export const Footer = () => {
+    const { openContactModal } = useModal()
+    const currentYear = new Date().getFullYear()
     const [hasMounted, setHasMounted] = useState(false)
     const [currentTime, setCurrentTime] = useState("")
     const [sessionId, setSessionId] = useState("")
@@ -324,16 +327,22 @@ export const Footer = () => {
                                 {[
                                     { name: "LinkedIn", icon: Linkedin, link: "https://www.linkedin.com/in/sony-silvera-zyncripta" },
                                     { name: "GitHub", icon: Github, link: "https://github.com/ZONNYXXD" },
-                                    { name: "Email", icon: Mail, link: "zonnyxxd@gmail.com" }
+                                    { name: "Email", icon: Mail, link: "mailto:zonnyxxd@gmail.com" }
                                 ].map((social, i) => (
-                                    <motion.a
+                                    <motion.button
                                         key={i}
-                                        href={social.link}
+                                        onClick={() => {
+                                            if (social.name === "Email") {
+                                                openContactModal()
+                                            } else {
+                                                window.open(social.link, "_blank", "noopener,noreferrer")
+                                            }
+                                        }}
                                         whileHover={{ y: -5, scale: 1.1 }}
                                         className="w-12 h-12 rounded-md glass border border-white/5 flex items-center justify-center hover:border-neon-purple transition-all group/social"
                                     >
                                         <social.icon className="w-5 h-5 text-gray-500 group-hover:text-neon-purple transition-colors" />
-                                    </motion.a>
+                                    </motion.button>
                                 ))}
                             </div>
                         </motion.div>
@@ -348,13 +357,21 @@ export const Footer = () => {
                             {[
                                 { label: "Privacy Policy", icon: Shield },
                                 { label: "Terms of Service", icon: Activity },
-                                { label: "Security Contact", icon: ExternalLink }
+                                { label: "Security Contact", icon: ExternalLink, link: "https://mail.google.com/mail/?view=cm&fs=1&to=zonnyxxd@gmail.com" }
                             ].map((item, i) => (
                                 <motion.li key={i} whileHover={{ x: 8 }} className="group/nav">
-                                    <a href="#" className="flex items-center gap-4 text-[11px] font-header font-black text-gray-500 uppercase tracking-widest group-hover/nav:text-white transition-colors">
+                                    <button
+                                        onClick={(e) => {
+                                            if (item.label === "Security Contact") {
+                                                e.preventDefault()
+                                                openContactModal()
+                                            }
+                                        }}
+                                        className="flex items-center gap-4 text-[11px] font-header font-black text-gray-500 uppercase tracking-widest group-hover/nav:text-white transition-colors text-left w-full"
+                                    >
                                         <item.icon className="w-4 h-4 text-white/10 group-hover/nav:text-neon-purple transition-colors" />
                                         {item.label}
-                                    </a>
+                                    </button>
                                 </motion.li>
                             ))}
                         </ul>

@@ -6,8 +6,11 @@ import { CyberGlobe } from "@/components/CyberGlobe"
 import { HUDOverlay } from "@/components/HUDOverlay"
 import { VideoPreviewPanel } from "@/components/VideoPreviewPanel"
 import { CyberCore } from "@/components/CyberCore"
+import { Shield, Lock, Database, Terminal, ChevronRight, Cpu, Activity, Zap, Play, CheckCircle2, AlertCircle } from "lucide-react"
+import { useModal } from "./ModalContext"
 
 export const HeroSection = () => {
+    const { openContactModal } = useModal()
     const [isEntered, setIsEntered] = useState(false)
     const [isConnecting, setIsConnecting] = useState(false)
 
@@ -114,6 +117,7 @@ export const HeroSection = () => {
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
+                                onClick={openContactModal}
                                 className="group relative px-10 py-5 overflow-hidden transition-all"
                             >
                                 <div className="absolute inset-0 bg-gradient-to-r from-neon-purple to-purple-600 group-hover:glow-neon-blend transition-all" />
@@ -141,10 +145,13 @@ export const HeroSection = () => {
                             </motion.button>
 
                             {/* SCI-FI Button: View CV */}
-                            <motion.button
+                            <motion.a
+                                href="/resume.pdf"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="group relative px-10 py-5 overflow-hidden border border-white/10 hover:border-neon-purple/50 bg-white/[0.02] transition-all"
+                                className="group relative px-10 py-5 overflow-hidden border border-white/10 hover:border-neon-purple/50 bg-white/[0.02] transition-all flex items-center gap-3"
                             >
                                 {/* Background HUD Print */}
                                 <div className="absolute inset-0 opacity-[0.05] group-hover:opacity-[0.1] transition-opacity font-mono text-[6px] p-2 leading-none pointer-events-none">
@@ -154,11 +161,9 @@ export const HeroSection = () => {
                                 {/* Digital Edge Glow */}
                                 <div className="absolute bottom-0 left-0 h-[1px] w-0 bg-neon-purple group-hover:w-full transition-all duration-500 glow-neon-blend" />
 
-                                <div className="relative z-20 flex items-center gap-3">
-                                    <span className="text-white font-header font-black text-xs uppercase tracking-[0.3em]">Access.cv_db</span>
-                                    <div className="w-1.5 h-1.5 rounded-full border border-white/30 group-hover:border-neon-purple transition-colors" />
-                                </div>
-                            </motion.button>
+                                <span className="text-white font-header font-black text-xs uppercase tracking-[0.3em]">Access.cv_db</span>
+                                <div className="w-1.5 h-1.5 rounded-full border border-white/30 group-hover:border-neon-purple transition-colors" />
+                            </motion.a>
                         </div>
                     </motion.div>
 
