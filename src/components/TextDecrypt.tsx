@@ -15,9 +15,15 @@ interface TextDecryptProps {
 export const TextDecrypt = ({ text, className = "", speed = 40, duration = 800 }: TextDecryptProps) => {
     const textRef = useRef<HTMLSpanElement>(null)
     const inView = useInView(textRef, { once: true, margin: "-10%" })
-    const [displayText, setDisplayText] = useState(
-        text.replace(/[a-zA-Z0-9]/g, () => CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)])
-    )
+    const [mounted, setMounted] = useState(false)
+    const [displayText, setDisplayText] = useState(text)
+
+    useEffect(() => {
+        setMounted(true)
+        if (mounted) {
+            setDisplayText(text.replace(/[a-zA-Z0-9]/g, () => CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)]))
+        }
+    }, [mounted, text])
 
     useEffect(() => {
         if (!inView) return

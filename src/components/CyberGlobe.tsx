@@ -87,7 +87,12 @@ const MatrixRain = () => {
 export const CyberGlobe = ({ isConnecting = false }: { isConnecting?: boolean }) => {
     const [arcsData, setArcsData] = useState<AttackArc[]>([])
     const [orbitalArcs, setOrbitalArcs] = useState<OrbitalArc[]>([])
+    const [mounted, setMounted] = useState(false)
     const globeRef = useRef<any>(null)
+
+    useEffect(() => {
+        setMounted(true)
+    }, [])
 
     // Random point generator
     const getRandomPoint = () => ({
@@ -171,18 +176,20 @@ export const CyberGlobe = ({ isConnecting = false }: { isConnecting?: boolean })
 
             {/* Layer 1: Drifting Starfield */}
             <div className="absolute inset-0 pointer-events-none opacity-40">
-                {[...Array(50)].map((_, i) => (
+                {mounted && [...Array(50)].map((_, i) => (
                     <motion.div
                         key={i}
                         initial={{ opacity: Math.random(), x: Math.random() * 100 + "%", y: Math.random() * 100 + "%" }}
                         animate={{
                             opacity: [0.2, 0.8, 0.2],
                             scale: [1, 1.2, 1],
+                            x: [Math.random() * 100 + "%", Math.random() * 100 + "%"],
+                            y: [Math.random() * 100 + "%", Math.random() * 100 + "%"],
                         }}
                         transition={{
-                            duration: 3 + Math.random() * 5,
+                            duration: Math.random() * 20 + 20,
                             repeat: Infinity,
-                            ease: "easeInOut"
+                            ease: "linear"
                         }}
                         className="absolute w-0.5 h-0.5 bg-white rounded-full"
                     />

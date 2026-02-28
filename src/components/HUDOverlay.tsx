@@ -46,14 +46,14 @@ export const HUDOverlay = ({ onEnter, isConnecting = false }: { onEnter: () => v
     }
 
     return (
-        <div className={`absolute inset-0 z-10 pointer-events-none h-screen flex flex-col justify-between p-12 transition-all duration-1000 ${isConnecting ? 'scale-105 opacity-0' : 'opacity-100'}`}>
+        <div className={`absolute inset-0 z-10 pointer-events-none h-screen flex flex-col justify-between p-6 md:p-12 transition-all duration-1000 ${isConnecting ? 'scale-105 opacity-0' : 'opacity-100'}`}>
 
             {/* Top Panels */}
-            <div className="flex justify-between items-start">
+            <div className="flex flex-col md:flex-row justify-between items-start gap-4">
                 <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="relative p-6 w-72 backdrop-blur-md bg-white/[0.02] overflow-hidden"
+                    className="relative p-4 md:p-6 w-full md:w-72 backdrop-blur-md bg-white/[0.02] overflow-hidden"
                 >
                     <div className={cornerBracket('tl')} />
                     <div className={cornerBracket('tr')} />
@@ -85,7 +85,7 @@ export const HUDOverlay = ({ onEnter, isConnecting = false }: { onEnter: () => v
                 <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="relative p-6 w-72 backdrop-blur-md bg-white/[0.02]"
+                    className="relative p-4 md:p-6 w-full md:w-72 backdrop-blur-md bg-white/[0.02]"
                 >
                     <div className={cornerBracket('tl')} />
                     <div className={cornerBracket('tr')} />
@@ -113,13 +113,13 @@ export const HUDOverlay = ({ onEnter, isConnecting = false }: { onEnter: () => v
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="relative mt-20"
+                    className="relative mt-10 md:mt-20 px-4"
                 >
-                    <h1 className="text-5xl md:text-8xl font-header font-black text-white px-8 uppercase tracking-widest relative z-10 leading-none italic">
-                        LEGAL&nbsp;&nbsp;<span className="text-neon-purple italic" style={{ WebkitTextStroke: '2px rgba(168, 85, 247, 0.4)' }}>X</span>&nbsp;&nbsp;SECURITY
+                    <h1 className="text-3xl sm:text-5xl md:text-8xl font-header font-black text-white uppercase tracking-[0.15em] md:tracking-widest relative z-10 leading-none italic">
+                        LEGAL&nbsp;&nbsp;<span className="text-neon-purple italic" style={{ WebkitTextStroke: '1px md:2px rgba(168, 85, 247, 0.4)' }}>X</span>&nbsp;&nbsp;SECURITY
                     </h1>
 
-                    <div className="mt-4 text-xs md:text-md font-ui font-medium text-gray-500 tracking-[0.5em] uppercase opacity-40">
+                    <div className="mt-4 text-[8px] md:text-xs font-ui font-medium text-gray-500 tracking-[0.3em] md:tracking-[0.5em] uppercase opacity-40">
                         Classified Orbital Surveillance Interface
                     </div>
                 </motion.div>
@@ -160,11 +160,11 @@ export const HUDOverlay = ({ onEnter, isConnecting = false }: { onEnter: () => v
             </div>
 
             {/* Bottom Panels: Realistic Logs */}
-            <div className="flex justify-between items-end">
+            <div className="flex flex-col md:flex-row justify-between items-center md:items-end gap-6">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="relative p-8 w-[450px] bg-black/60 backdrop-blur-xl border border-white/5 h-56 overflow-hidden"
+                    className="relative p-6 md:p-8 w-full md:w-[450px] bg-black/60 backdrop-blur-xl border border-white/5 h-48 md:h-56 overflow-hidden"
                 >
                     <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent" />
 

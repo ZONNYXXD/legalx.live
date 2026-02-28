@@ -162,7 +162,7 @@ const BenefitCard = ({ benefit, index }: { benefit: any, index: number }) => {
 
 export const Benefits = () => {
     return (
-        <section id="systems" className="pt-32 pb-12 relative overflow-hidden bg-black/80 backdrop-blur-[2px]">
+        <section id="capabilities" className="pt-32 pb-12 relative overflow-hidden bg-black/80 backdrop-blur-[2px]">
             {/* Background Atmosphere */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[800px] bg-neon-purple/5 blur-[120px] rounded-full pointer-events-none -rotate-12" />
             <div className="absolute inset-0 bg-grid opacity-5 pointer-events-none" />

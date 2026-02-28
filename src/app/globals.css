@@ -45,6 +45,31 @@ body {
     color: white;
     overflow-x: hidden;
     font-family: var(--font-plus-jakarta), var(--font-inter), sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Fluid Typography & Layout Utilities */
+@layer utilities {
+    .text-fluid-h1 {
+        font-size: clamp(2.5rem, 8vw + 1rem, 8rem);
+        line-height: 0.9;
+    }
+
+    .text-fluid-h2 {
+        font-size: clamp(2rem, 6vw + 1rem, 6rem);
+        line-height: 1;
+    }
+
+    .section-padding {
+        padding-top: clamp(4rem, 10vw, 8rem);
+        padding-bottom: clamp(4rem, 10vw, 8rem);
+    }
+
+    .mobile-px {
+        padding-left: clamp(1rem, 5vw, 2rem);
+        padding-right: clamp(1rem, 5vw, 2rem);
+    }
 }
 
 .font-header {

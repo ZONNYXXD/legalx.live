@@ -118,8 +118,8 @@ const SkillUnit = ({ skill, index }: { skill: Skill, index: number }) => {
         >
             <div
                 className={`glass p-6 rounded-2xl border transition-all duration-500 h-full flex flex-col relative overflow-hidden ${isHovered
-                        ? "border-neon-purple/40 bg-gradient-to-br from-neon-purple/[0.04] to-cyan-400/[0.02] shadow-[0_0_40px_rgba(168,85,247,0.1)]"
-                        : "border-white/5 bg-white/[0.01]"
+                    ? "border-neon-purple/40 bg-gradient-to-br from-neon-purple/[0.04] to-cyan-400/[0.02] shadow-[0_0_40px_rgba(168,85,247,0.1)]"
+                    : "border-white/5 bg-white/[0.01]"
                     }`}
             >
                 {/* HUD Decoration */}
@@ -139,7 +139,7 @@ const SkillUnit = ({ skill, index }: { skill: Skill, index: number }) => {
 
                 {/* Compact Title: Calibrated for Width */}
                 <div className="mb-6 relative z-10 px-1">
-                    <h3 className="text-lg md:text-xl font-venus italic text-white uppercase tracking-tighter group-hover:text-neon-purple transition-colors leading-tight pr-14">
+                    <h3 className="text-base sm:text-lg md:text-xl font-venus italic text-white uppercase tracking-tighter group-hover:text-neon-purple transition-colors leading-tight pr-14">
                         <PeekText text={skill.name} />
                     </h3>
                 </div>
@@ -331,6 +331,12 @@ const SpeakingUplink = ({ lang }: { lang: SpokenLanguage }) => {
 }
 
 export const ExpertiseGrid = () => {
+    const [activeTab, setActiveTab] = useState('technical')
+    const [mounted, setMounted] = useState(false)
+
+    useEffect(() => {
+        setMounted(true)
+    }, [])
     const containerRef = useRef<HTMLDivElement>(null)
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -361,11 +367,11 @@ export const ExpertiseGrid = () => {
 
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
                         <div>
-                            <h2 className="text-6xl md:text-8xl font-venus italic text-white mb-6 leading-none pr-12">
+                            <h2 className="text-fluid-h2 font-venus italic text-white mb-6 leading-none pr-12">
                                 <PeekText text="Technical" />{' '}
                                 <span className="text-neon-purple text-glow-purple"><PeekText text="Arsenal." /></span>
                             </h2>
-                            <p className="text-gray-500 font-ui font-bold max-w-2xl uppercase text-[10px] tracking-[0.5em] leading-relaxed italic opacity-80">
+                            <p className="text-gray-500 font-ui font-bold max-w-2xl uppercase text-[10px] tracking-[0.3em] md:tracking-[0.5em] leading-relaxed italic opacity-80">
                                 "DECRYPTING CORE COMPETENCIES ACROSS SECURITY, SYSTEMS, AND HIGH-END DESIGN ARCHITECTURE."
                             </p>
                         </div>
@@ -443,7 +449,7 @@ export const ExpertiseGrid = () => {
                         </div>
 
                         {/* Tactical Status HUD Panel */}
-                        <div className="mt-12 p-6 rounded-xl border border-white/5 bg-black/[0.6] backdrop-blur-md relative group-hover/lattice:border-neon-purple/30 transition-all shadow-2xl">
+                        <div className="mt-8 md:mt-12 p-4 md:p-6 rounded-xl border border-white/5 bg-black/[0.6] backdrop-blur-md relative group-hover/lattice:border-neon-purple/30 transition-all shadow-2xl">
                             <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-neon-purple/40 to-transparent animate-pulse" />
                             <div className="text-[8px] font-mono text-neon-purple font-black uppercase tracking-[0.4em] mb-5 flex items-center gap-2">
                                 <Activity className="w-3 h-3 animate-pulse" /> Operations_Matrix
@@ -480,18 +486,19 @@ export const ExpertiseGrid = () => {
                                 <p className="text-[9px] font-mono text-gray-600 uppercase tracking-widest pl-11">SYNTACTIC_COMMAND_PROTOCOLS</p>
                             </div>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                             {languages.technical.map((lang) => (
                                 <LanguageBlock key={lang.name} lang={lang} />
                             ))}
                         </div>
 
                         {/* Interactive Video Showcase & Spoken Languages Grid */}
-                        <div className="mt-16 pt-16 border-t border-white/5 relative hidden xl:block w-full">
-                            <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 items-start">
+                        {/* Video Showcase Row */}
+                        <div className="mt-8 md:mt-16 pt-8 md:pt-16 border-t border-white/5 relative w-full">
+                            <div className="grid grid-cols-1 xl:grid-cols-4 gap-8 md:gap-12 items-start">
                                 {/* Left: Video Showcase (3/4 width) */}
-                                <div className="lg:col-span-3">
-                                    <h3 className="text-xl font-header font-black text-white uppercase tracking-tight flex items-center gap-4 italic mb-8">
+                                <div className="xl:col-span-3">
+                                    <h3 className="text-lg md:text-xl font-header font-black text-white uppercase tracking-tight flex items-center gap-4 italic mb-6 md:mb-8">
                                         <Monitor className="w-5 h-5 text-neon-purple" /> Intelligence_Replay
                                     </h3>
                                     <div className="relative w-full">
@@ -500,8 +507,8 @@ export const ExpertiseGrid = () => {
                                 </div>
 
                                 {/* Right: Spoken Languages (1/4 width) */}
-                                <div className="lg:col-span-1">
-                                    <h3 className="text-xl font-header font-black text-white uppercase tracking-tight flex items-center gap-4 italic mb-8">
+                                <div className="xl:col-span-1">
+                                    <h3 className="text-lg md:text-xl font-header font-black text-white uppercase tracking-tight flex items-center gap-4 italic mb-6 md:mb-8">
                                         <Radio className="w-5 h-5 text-neon-purple" /> Spoken_Uplinks
                                     </h3>
                                     <div className="space-y-4">

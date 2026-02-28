@@ -299,7 +299,7 @@ export const Footer = () => {
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-6 relative z-10">
+            <div id="contact" className="max-w-7xl mx-auto px-6 relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-20 pb-20 border-b border-white/5 text-center md:text-left">
 
                     {/* Brand Meta */}
@@ -322,9 +322,9 @@ export const Footer = () => {
                             </div>
                             <div className="flex gap-4 mt-4">
                                 {[
-                                    { name: "LinkedIn", icon: Linkedin, link: "#" },
-                                    { name: "GitHub", icon: Github, link: "#" },
-                                    { name: "Email", icon: Mail, link: "mailto:contact@sonysilvera.com" }
+                                    { name: "LinkedIn", icon: Linkedin, link: "https://www.linkedin.com/in/sony-silvera-zyncripta" },
+                                    { name: "GitHub", icon: Github, link: "https://github.com/ZONNYXXD" },
+                                    { name: "Email", icon: Mail, link: "mailto:zonnyxxd@gmail.com" }
                                 ].map((social, i) => (
                                     <motion.a
                                         key={i}

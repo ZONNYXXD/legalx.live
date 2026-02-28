@@ -69,7 +69,7 @@ export const FAQ = () => {
     }
 
     return (
-        <section id="contact" className="py-32 relative overflow-hidden bg-black min-h-screen flex flex-col justify-center">
+        <section id="faq" className="py-32 relative overflow-hidden bg-black min-h-screen flex flex-col justify-center">
             {/* High-tech Background Grid */}
             <div className="absolute inset-0 opacity-10 pointer-events-none"
                 style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, #A855F7 1px, transparent 0)', backgroundSize: '40px 40px' }} />

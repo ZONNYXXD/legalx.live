@@ -137,6 +137,11 @@ const LogicUnit = ({ item, index }: { item: any, index: number }) => {
 
 const IntelModule = ({ test, index }: { test: any, index: number }) => {
     const [isHovered, setIsHovered] = useState(false)
+    const [mounted, setMounted] = useState(false)
+
+    useEffect(() => {
+        setMounted(true)
+    }, [])
     return (
         <motion.div
             initial={{ opacity: 0, x: 50 }}
@@ -178,7 +183,7 @@ const IntelModule = ({ test, index }: { test: any, index: number }) => {
                                 {test.id} // DECRYPTED
                             </div>
                             <div className="text-[8px] font-mono text-gray-600 uppercase tracking-widest italic">
-                                Timestamp: {new Date().toLocaleDateString()} // INTERNAL_SYNC
+                                Timestamp: {mounted ? new Date().toLocaleDateString() : "--/--/----"} // INTERNAL_SYNC
                             </div>
                             <div className="ml-auto flex items-center gap-2">
                                 <div className={`w-1.5 h-1.5 rounded-full ${isHovered ? "bg-neon-purple animate-pulse" : "bg-white/10"}`} />
@@ -239,7 +244,7 @@ export const SocialProof = () => {
     const networkOpacity = useTransform(scrollYProgress, [0, 0.5], [0, 0.15])
 
     return (
-        <section id="expertise" className="py-64 relative overflow-hidden bg-[#010101]" ref={containerRef}>
+        <section id="expertise" className="section-padding relative overflow-hidden bg-[#010101]" ref={containerRef}>
             {/* AMBIENT BACKGROUND SYSTEM */}
             <motion.div
                 style={{ scale: networkScale, opacity: networkOpacity }}
@@ -268,14 +273,14 @@ export const SocialProof = () => {
 
             <div className="max-w-7xl mx-auto px-6 relative z-10">
                 {/* METRICS GRID - TACTICAL DATA MODULES */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-40">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-20 md:mb-40">
                     {metrics.map((item, index) => (
                         <LogicUnit key={item.label} item={item} index={index} />
                     ))}
                 </div>
 
                 {/* TESTIMONIALS & LEADERSHIP */}
-                <div className="flex flex-col lg:flex-row gap-24 items-start">
+                <div className="flex flex-col lg:flex-row gap-16 md:gap-24 items-start">
                     <div className="lg:w-1/2">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}

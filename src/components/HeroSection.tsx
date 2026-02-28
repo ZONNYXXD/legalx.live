@@ -64,11 +64,11 @@ export const HeroSection = () => {
             </AnimatePresence>
 
             {/* Static Content (Visible after enter) */}
-            <div className="relative flex-1 flex flex-col items-center justify-center pt-32 pb-24 z-10 w-full min-h-max">
+            <div className="relative flex-1 flex flex-col items-center justify-center pt-24 md:pt-32 pb-16 md:pb-24 z-10 w-full min-h-max">
                 {/* 3D Core WebGL Layer */}
                 <CyberCore />
 
-                <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full grid grid-cols-1 xl:grid-cols-[1fr_1.3fr] items-start relative z-20 gap-12 lg:gap-16">
+                <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full grid grid-cols-1 xl:grid-cols-[1fr_1.3fr] items-center xl:items-start relative z-20 gap-12 lg:gap-16">
 
                     {/* LEFT COLUMN: Text Content & Call to Actions */}
                     <motion.div
@@ -83,7 +83,7 @@ export const HeroSection = () => {
                             Unified Security Hub / 2026
                         </div>
 
-                        <h1 className="text-5xl lg:text-[6.5rem] font-header font-black tracking-tighter leading-[0.85] text-white">
+                        <h1 className="text-fluid-h1 font-header font-black tracking-tighter leading-[0.85] text-white">
                             LEGAL <motion.span
                                 animate={{
                                     color: ["#A855F7", "#00FFFF", "#A855F7"],
@@ -101,10 +101,10 @@ export const HeroSection = () => {
                                 className="inline-block italic"
                             >X</motion.span>
                             <br />
-                            <span className="text-white/95">SYSTEMS.</span>
+                            <span className="text-white/95 uppercase">SYSTEMS.</span>
                         </h1>
 
-                        <p className="text-lg lg:text-2xl text-gray-400 max-w-2xl leading-relaxed font-ui font-medium uppercase tracking-widest italic opacity-70">
+                        <p className="text-base sm:text-lg lg:text-2xl text-gray-400 max-w-2xl leading-relaxed font-ui font-medium uppercase tracking-widest italic opacity-70">
                             "Enterprise threat intelligence engineered for total immunity. We build systems that fight back."
                         </p>
 
@@ -167,7 +167,7 @@ export const HeroSection = () => {
                         initial={{ opacity: 0, scale: 0.95 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 1.2, ease: "easeOut", delay: 0.1 }}
-                        className="w-full max-w-[1000px] ml-auto relative z-30 shadow-2xl xl:block hidden"
+                        className="w-full max-w-[1000px] mx-auto xl:ml-auto relative z-30 shadow-2xl"
                     >
                         <VideoPreviewPanel />
                     </motion.div>
@@ -176,6 +176,6 @@ export const HeroSection = () => {
 
             {/* Background Grid for post-intro */}
             <div className="absolute inset-0 bg-grid opacity-10 pointer-events-none" />
-        </section>
+        </section >
     )
 }

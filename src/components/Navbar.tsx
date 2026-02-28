@@ -28,6 +28,27 @@ export const Navbar = () => {
         return () => window.removeEventListener("scroll", handleScroll)
     }, [])
 
+    const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        e.preventDefault()
+        setIsOpen(false)
+
+        const targetId = href.replace("#", "")
+        const element = document.getElementById(targetId)
+
+        if (element) {
+            const offset = 80 // Navbar height offset
+            const bodyRect = document.body.getBoundingClientRect().top
+            const elementRect = element.getBoundingClientRect().top
+            const elementPosition = elementRect - bodyRect
+            const offsetPosition = elementPosition - offset
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            })
+        }
+    }
+
     return (
         <>
             <motion.nav
@@ -51,7 +72,7 @@ export const Navbar = () => {
                             <div className="flex items-center justify-center w-8 h-8 rounded bg-white/5 border border-white/10 group-hover:border-neon-purple/50 group-hover:bg-neon-purple/10 transition-all duration-300">
                                 <Shield className="w-4 h-4 text-white group-hover:text-neon-purple transition-colors duration-300" />
                             </div>
-                            <span className="font-header font-black text-xl tracking-widest text-white uppercase hidden sm:block transition-colors duration-300">
+                            <span className="font-header font-black text-xl tracking-widest text-white uppercase transition-colors duration-300">
                                 LEGAL<span className="text-neon-purple ml-1">X</span>
                             </span>
                         </Link>
@@ -63,6 +84,7 @@ export const Navbar = () => {
                             <Magnetic key={link.name}>
                                 <Link
                                     href={link.href}
+                                    onClick={(e) => handleNavClick(e, link.href)}
                                     onMouseEnter={() => setHoveredLink(link.name)}
                                     className="relative px-5 py-2 text-[10px] uppercase font-ui font-black text-gray-400 hover:text-white transition-colors duration-300 tracking-[0.2em]"
                                 >
@@ -166,7 +188,7 @@ export const Navbar = () => {
                                 >
                                     <Link
                                         href={link.href}
-                                        onClick={() => setIsOpen(false)}
+                                        onClick={(e) => handleNavClick(e, link.href)}
                                         className="text-2xl font-header font-black text-white uppercase tracking-widest hover:text-neon-purple transition-colors flex flex-col items-center gap-2"
                                     >
                                         <span className="text-[10px] text-neon-purple font-mono">0{i + 1}</span>
