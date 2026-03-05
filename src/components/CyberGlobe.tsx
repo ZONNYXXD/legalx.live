@@ -51,7 +51,10 @@ const MatrixRain = () => {
         const fontSize = 13
         const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノ9183726450'
         const columns = Math.floor(canvas.width / fontSize)
-        const drops: number[] = Array(columns).fill(1)
+        const isMobileCanvas = window.innerWidth < 768
+
+        // Skip some columns on mobile for performance
+        const drops: number[] = Array(columns).fill(1).map((_, i) => (isMobileCanvas && i % 2 === 0) ? -1000 : 1)
 
         const draw = () => {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'
@@ -60,6 +63,7 @@ const MatrixRain = () => {
             ctx.font = `${fontSize}px monospace`
 
             for (let i = 0; i < drops.length; i++) {
+                if (drops[i] < 0) continue // Skipped column
                 const text = chars[Math.floor(Math.random() * chars.length)]
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize)
                 if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
@@ -69,7 +73,7 @@ const MatrixRain = () => {
             }
         }
 
-        const interval = setInterval(draw, 40)
+        const interval = setInterval(draw, isMobileCanvas ? 80 : 40)
         return () => {
             clearInterval(interval)
             window.removeEventListener('resize', resize)
@@ -90,8 +94,14 @@ export const CyberGlobe = ({ isConnecting = false }: { isConnecting?: boolean })
     const [mounted, setMounted] = useState(false)
     const globeRef = useRef<any>(null)
 
+    const [isMobile, setIsMobile] = useState(false)
+
     useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768)
+        checkMobile()
+        window.addEventListener('resize', checkMobile, { passive: true })
         setMounted(true)
+        return () => window.removeEventListener('resize', checkMobile)
     }, [])
 
     // Random point generator
@@ -145,7 +155,7 @@ export const CyberGlobe = ({ isConnecting = false }: { isConnecting?: boolean })
             }, 1500)
 
             timeouts.add(timeoutId)
-        }, 800)
+        }, isMobile ? 1800 : 800)
 
         // Ambient orbital arcs simulation
         const orbitalInterval = setInterval(() => {
@@ -161,7 +171,7 @@ export const CyberGlobe = ({ isConnecting = false }: { isConnecting?: boolean })
                 const updated = [...current, newOrbital]
                 return updated.length > 15 ? updated.slice(1) : updated
             })
-        }, 2000)
+        }, isMobile ? 4000 : 2000)
 
         return () => {
             isMounted = false
@@ -191,7 +201,7 @@ export const CyberGlobe = ({ isConnecting = false }: { isConnecting?: boolean })
 
             {/* Layer 1: Drifting Starfield */}
             <div className="absolute inset-0 pointer-events-none opacity-40">
-                {mounted && [...Array(20)].map((_, i) => (
+                {mounted && [...Array(isMobile ? 8 : 20)].map((_, i) => (
                     <motion.div
                         key={i}
                         initial={{ opacity: Math.random(), x: Math.random() * 100 + "%", y: Math.random() * 100 + "%" }}
@@ -245,30 +255,32 @@ export const CyberGlobe = ({ isConnecting = false }: { isConnecting?: boolean })
                 hexBinPointsData={[]}
             />
 
-            {/* Tactical HUD Reticles/Overlays */}
-            <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-                <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-                    className="w-[800px] h-[800px] border border-white/[0.03] rounded-full absolute"
-                />
-                <motion.div
-                    animate={{ rotate: -360 }}
-                    transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                    className="w-[600px] h-[600px] border border-white/[0.05] rounded-full absolute border-dashed"
-                />
+            {/* Tactical HUD Reticles/Overlays - Hidden on mobile to save paint performance */}
+            {!isMobile && (
+                <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+                    <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+                        className="w-[800px] h-[800px] border border-white/[0.03] rounded-full absolute"
+                    />
+                    <motion.div
+                        animate={{ rotate: -360 }}
+                        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+                        className="w-[600px] h-[600px] border border-white/[0.05] rounded-full absolute border-dashed"
+                    />
 
-                {/* Status Labels around globe */}
-                <div className="absolute left-[20%] top-[40%] text-[8px] font-mono text-cyan-400 opacity-40 animate-pulse tracking-widest uppercase">
-                    Scanning_Vectors...
+                    {/* Status Labels around globe */}
+                    <div className="absolute left-[20%] top-[40%] text-[8px] font-mono text-cyan-400 opacity-40 animate-pulse tracking-widest uppercase">
+                        Scanning_Vectors...
+                    </div>
+                    <div className="absolute right-[20%] bottom-[40%] text-[8px] font-mono text-neon-purple opacity-40 animate-pulse tracking-widest uppercase" style={{ animationDelay: '1s' }}>
+                        Signal_Lock: Stable
+                    </div>
+                    <div className="absolute left-[30%] bottom-[25%] text-[8px] font-mono text-white opacity-20 tracking-widest uppercase">
+                        Tracking_Hostile_Nodes...
+                    </div>
                 </div>
-                <div className="absolute right-[20%] bottom-[40%] text-[8px] font-mono text-neon-purple opacity-40 animate-pulse tracking-widest uppercase" style={{ animationDelay: '1s' }}>
-                    Signal_Lock: Stable
-                </div>
-                <div className="absolute left-[30%] bottom-[25%] text-[8px] font-mono text-white opacity-20 tracking-widest uppercase">
-                    Tracking_Hostile_Nodes...
-                </div>
-            </div>
+            )}
 
             {/* Radar Sweep SVG Overlay */}
             <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.05]">
