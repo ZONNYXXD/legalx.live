@@ -28,8 +28,11 @@ export const TextDecrypt = ({ text, className = "", speed = 40, duration = 800 }
     useEffect(() => {
         if (!inView) return
 
+        let isMounted = true
         let iteration = 0
         const interval = setInterval(() => {
+            if (!isMounted) return
+
             setDisplayText((prev) => {
                 return text.split('').map((letter, index) => {
                     if (letter === ' ' || letter === '\n') {
@@ -55,7 +58,10 @@ export const TextDecrypt = ({ text, className = "", speed = 40, duration = 800 }
             }
         }, speed)
 
-        return () => clearInterval(interval)
+        return () => {
+            isMounted = false
+            clearInterval(interval)
+        }
     }, [inView, text, speed, duration])
 
     return (

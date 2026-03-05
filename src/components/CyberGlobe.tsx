@@ -101,8 +101,13 @@ export const CyberGlobe = ({ isConnecting = false }: { isConnecting?: boolean })
     })
 
     useEffect(() => {
+        let isMounted = true
+        const timeouts = new Set<NodeJS.Timeout>()
+
         // Attack simulation loop
         const interval = setInterval(() => {
+            if (!isMounted) return
+
             const start = getRandomPoint()
             const end = getRandomPoint()
             const severity: AttackArc['severity'] = Math.random() < 0.2 ? 'high' : (Math.random() < 0.5 ? 'medium' : 'low')
@@ -118,11 +123,13 @@ export const CyberGlobe = ({ isConnecting = false }: { isConnecting?: boolean })
 
             setArcsData(current => {
                 const updated = [...current, newArc]
-                return updated.length > 80 ? updated.slice(1) : updated
+                return updated.length > 30 ? updated.slice(1) : updated
             })
 
             // Spawn collision effect after arc reaches destination (1500ms arcDashAnimateTime)
-            setTimeout(() => {
+            const timeoutId = setTimeout(() => {
+                if (!isMounted) return
+
                 setOrbitalArcs(current => {
                     const newRing: OrbitalArc = {
                         lat: end.lat,
@@ -131,14 +138,19 @@ export const CyberGlobe = ({ isConnecting = false }: { isConnecting?: boolean })
                         color: SEVERITY_COLORS[severity]
                     }
                     const updated = [...current, newRing]
-                    // Keep up to 40 active rings to allow them to propagate and fade
-                    return updated.length > 40 ? updated.slice(1) : updated
+                    // Keep up to 15 active rings to allow them to propagate and fade
+                    return updated.length > 15 ? updated.slice(1) : updated
                 })
+                timeouts.delete(timeoutId)
             }, 1500)
+
+            timeouts.add(timeoutId)
         }, 800)
 
         // Ambient orbital arcs simulation
         const orbitalInterval = setInterval(() => {
+            if (!isMounted) return
+
             setOrbitalArcs(current => {
                 const point = getRandomPoint()
                 const newOrbital: OrbitalArc = {
@@ -147,13 +159,16 @@ export const CyberGlobe = ({ isConnecting = false }: { isConnecting?: boolean })
                     color: Math.random() < 0.3 ? '#A855F7' : '#00ffff'
                 }
                 const updated = [...current, newOrbital]
-                return updated.length > 40 ? updated.slice(1) : updated
+                return updated.length > 15 ? updated.slice(1) : updated
             })
         }, 2000)
 
         return () => {
+            isMounted = false
             clearInterval(interval)
             clearInterval(orbitalInterval)
+            timeouts.forEach(clearTimeout)
+            timeouts.clear()
         }
     }, [])
 
@@ -176,7 +191,7 @@ export const CyberGlobe = ({ isConnecting = false }: { isConnecting?: boolean })
 
             {/* Layer 1: Drifting Starfield */}
             <div className="absolute inset-0 pointer-events-none opacity-40">
-                {mounted && [...Array(50)].map((_, i) => (
+                {mounted && [...Array(20)].map((_, i) => (
                     <motion.div
                         key={i}
                         initial={{ opacity: Math.random(), x: Math.random() * 100 + "%", y: Math.random() * 100 + "%" }}

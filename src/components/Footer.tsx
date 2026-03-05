@@ -419,9 +419,15 @@ export const Footer = () => {
                                 <Activity className="w-4 h-4 animate-pulse" /> {currentTime} GMT
                             </div>
                         )}
-                        <span className="italic font-bold text-gray-700">
-                            &copy; {hasMounted ? new Date().getFullYear() : '2026'} LEGAL X SECURITY. All Rights Reserved.
-                        </span>
+                        <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+                            <span className="italic font-bold text-gray-700">
+                                &copy; {hasMounted ? new Date().getFullYear() : '2026'} LEGAL X SECURITY. All Rights Reserved.
+                            </span>
+                            <span className="text-gray-600 hidden sm:block">|</span>
+                            <span className="italic font-bold text-neon-purple tracking-widest drop-shadow-[0_0_10px_rgba(168,85,247,0.5)]">
+                                DEVELOPED BY ZONNY
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>

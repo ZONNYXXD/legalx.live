@@ -21,17 +21,22 @@ export const HUDOverlay = ({ onEnter, isConnecting = false }: { onEnter: () => v
 
     useEffect(() => {
         setHasMounted(true)
+        let isMounted = true
+
         const counterInt = setInterval(() => {
+            if (!isMounted) return
             setCounter(c => c + Math.floor(Math.random() * 5) + 1)
         }, isConnecting ? 200 : 1000)
 
         const logInt = setInterval(() => {
+            if (!isMounted) return
             const nextMsg = THREAT_MESSAGES[Math.floor(Math.random() * THREAT_MESSAGES.length)]
             const timestamp = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })
             setLogs(l => [{ ...nextMsg, msg: `[${timestamp}] ${nextMsg.msg}` }, ...l.slice(0, 6)])
         }, isConnecting ? 500 : 3000)
 
         return () => {
+            isMounted = false
             clearInterval(counterInt)
             clearInterval(logInt)
         }

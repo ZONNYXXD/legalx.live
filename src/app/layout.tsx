@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 import { RainParticles } from "@/components/RainParticles"
 import { ContactModal } from "@/components/ContactModal"
 import { ModalProvider } from "@/components/ModalContext"
+import { Protection } from "@/components/Protection"
 
 export default function RootLayout({
     children,
@@ -24,6 +25,7 @@ export default function RootLayout({
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
             </head>
             <body className={`antialiased font-inter ${allFontsVariables}`}>
+                <Protection />
                 <ModalProvider>
                     <CustomCursor />
                     <RainParticles />
